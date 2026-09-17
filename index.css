@@ -247,6 +247,51 @@ body.design div#designView {
 
 
 
+.glasses-slots {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 1.5vh;
+	margin-top: 1.5vh;
+}
+
+.glasses-slots label {
+	display: flex;
+	align-items: center;
+	gap: .8vh;
+	color: #ccc;
+	font-size: 1.8vh;
+}
+
+.glasses-slots select {
+	background: #333;
+	color: #fff;
+	border: none;
+	border-bottom: .3vh solid #888;
+	font-size: 1.8vh;
+	padding: .2vh .4vh;
+}
+
+.glasses-slots button#saveToGlasses {
+	background: #367ebd;
+	border-color: #367ebd;
+	color: #fff;
+}
+
+.glasses-slots button#loadFromGlasses {
+	background: #4caf50;
+	border-color: #4caf50;
+	color: #fff;
+}
+
+.glasses-slots button:disabled {
+	opacity: .5;
+	cursor: default;
+}
+
+
+
 /* Frames */
 
 .frame-strip {

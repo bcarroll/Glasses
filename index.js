@@ -318,6 +318,66 @@ document.getElementById('loadDesignInput').addEventListener('change', (e) => {
 	e.target.value = '';
 });
 
+document.getElementById('saveToGlasses').addEventListener('click', () => {
+	if (emulateState || !BluetoothChemion.isConnected()) {
+		alert('Connect to your glasses first.');
+		return;
+	}
+
+	let slot = parseInt(document.getElementById('glassesSlot').value);
+	let button = document.getElementById('saveToGlasses');
+
+	button.disabled = true;
+	button.textContent = 'Saving...';
+
+	BluetoothChemion.saveToSlot(slot, frames)
+		.then(() => {
+			button.textContent = 'Saved!';
+			setTimeout(() => { button.textContent = 'Save to Glasses'; }, 1500);
+		})
+		.catch((error) => {
+			console.log(error);
+			alert(
+				'Could not save to glasses slot ' + slot + '. ' +
+				'This on-device protocol is best-effort (see console) and may need tuning against your hardware.'
+			);
+			button.textContent = 'Save to Glasses';
+		})
+		.finally(() => { button.disabled = false; });
+});
+
+document.getElementById('loadFromGlasses').addEventListener('click', () => {
+	if (emulateState || !BluetoothChemion.isConnected()) {
+		alert('Connect to your glasses first.');
+		return;
+	}
+
+	let slot = parseInt(document.getElementById('glassesSlot').value);
+	let button = document.getElementById('loadFromGlasses');
+
+	button.disabled = true;
+	button.textContent = 'Loading...';
+
+	BluetoothChemion.loadFromSlot(slot)
+		.then((loadedFrames) => {
+			stopDesignAnimation();
+			frames = loadedFrames.map((frame) => frameFromLevels(Array.from(frame.levels), frame.duration || 150));
+			selectFrame(0);
+
+			button.textContent = 'Loaded!';
+			setTimeout(() => { button.textContent = 'Load from Glasses'; }, 1500);
+		})
+		.catch((error) => {
+			console.log(error);
+			alert(
+				'Could not load glasses slot ' + slot + '. ' +
+				'This on-device protocol is best-effort (see console) and may need tuning against your hardware.'
+			);
+			button.textContent = 'Load from Glasses';
+		})
+		.finally(() => { button.disabled = false; });
+});
+
 
 
 
